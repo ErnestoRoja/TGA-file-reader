@@ -376,6 +376,27 @@ TGAimage separateChannels(string image1, string color)
 	}
 	return topLayer;
 }
+                        
+TGAimage combineFiles(string image1, string image2, string image3)
+{
+	TGAimage redLayer = readData(image1);
+	TGAimage greenLayer = readData(image2);
+	TGAimage blueLayer = readData(image3);
+	TGAimage result = redLayer;
+
+	int updatedBlue = 0;
+	int updatedGreen = 0;
+	int updatedRed = 0;
+
+	unsigned int pixelCount = redLayer.header.getPixelCount();
+	for (unsigned int i = 0; i < pixelCount; i++)
+	{
+		result.pixels[i].redComponent = redLayer.pixels[i].redComponent;
+		result.pixels[i].greenComponent = greenLayer.pixels[i].greenComponent;
+		result.pixels[i].blueComponent = blueLayer.pixels[i].blueComponent;
+	}
+	return result;
+}
 
 int main()
 {
@@ -503,6 +524,19 @@ int main()
 	}
 
 	//Test 9
+	TGAimage test9 = combineFiles("input/layer_red.tga", "input/layer_green.tga", "input/layer_blue.tga");
+	writeData(test9, "output/test9.tga");
+
+	if (imageComparison("output/test9.tga", "examples/EXAMPLE_part9.tga") == true)
+	{
+		cout << "Test #9...... Passed!" << endl;
+		testCounter++;
+	}
+	else
+	{
+		cout << "Test #9...... Failed!" << endl;
+	}
+
 
 	return 0;
 }
