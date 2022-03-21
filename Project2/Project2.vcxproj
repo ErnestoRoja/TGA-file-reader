@@ -153,6 +153,9 @@
     <ClInclude Include="TGAheader.h" />
     <ClInclude Include="TGAimage.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="examples\EXAMPLE_part10.tga" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

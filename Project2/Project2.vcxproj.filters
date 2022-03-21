@@ -33,4 +33,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="examples\EXAMPLE_part10.tga">
+      <Filter>Source Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

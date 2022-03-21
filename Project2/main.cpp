@@ -384,10 +384,6 @@ TGAimage combineFiles(string image1, string image2, string image3)
 	TGAimage blueLayer = readData(image3);
 	TGAimage result = redLayer;
 
-	int updatedBlue = 0;
-	int updatedGreen = 0;
-	int updatedRed = 0;
-
 	unsigned int pixelCount = redLayer.header.getPixelCount();
 	for (unsigned int i = 0; i < pixelCount; i++)
 	{
@@ -398,11 +394,33 @@ TGAimage combineFiles(string image1, string image2, string image3)
 	return result;
 }
 
+TGAimage rotate(string image1)
+{
+	TGAimage topLayer = readData(image1);
+	TGAimage result;
+	result.header = topLayer.header;
+	
+	unsigned int pixelCount = topLayer.header.getPixelCount();
+	for (int i = pixelCount - 1; i >= 0; i--)
+	{
+		pixel rotatedPixel;
+
+		rotatedPixel.blueComponent = topLayer.pixels[i].blueComponent;
+		rotatedPixel.greenComponent = topLayer.pixels[i].greenComponent;
+		rotatedPixel.redComponent = topLayer.pixels[i].redComponent;
+		result.pixels.push_back(rotatedPixel);
+	}
+	return result;
+}
+
+
 int main()
 {
 	unsigned int testCounter = 0;
+	unsigned int totalTests = 0;
 
 	//Test 1 (multiply)
+	totalTests++;
 	TGAimage test1 = multiply("input/layer1.tga", "input/pattern1.tga");
 	writeData(test1, "output/test1.tga");
 	if (imageComparison("output/test1.tga", "examples/EXAMPLE_part1.tga") == true)
@@ -416,6 +434,7 @@ int main()
 	}
 	
 	//Test 2 (subtract)
+	totalTests++;
 	TGAimage test2 = subtract("input/layer2.tga", "input/car.tga");
 	writeData(test2, "output/test2.tga");
 	if (imageComparison("output/test2.tga", "examples/EXAMPLE_part2.tga") == true)
@@ -429,6 +448,7 @@ int main()
 	}
 
 	//Test 3 (screen)
+	totalTests++;
 	TGAimage test3_part1 = multiply("input/layer1.tga", "input/pattern2.tga");
 	writeData(test3_part1, "output/test3_part1.tga");
 	TGAimage test3_part2 = screen("input/text.tga", "output/test3_part1.tga");
@@ -445,6 +465,7 @@ int main()
 	}
 
 	//Test 4 
+	totalTests++;
 	TGAimage test4_part1 = multiply("input/layer2.tga", "input/circles.tga");
 	writeData(test4_part1, "output/test4_part1.tga");
 	TGAimage test4_part2 = subtract("input/pattern2.tga", "output/test4_part1.tga");
@@ -461,6 +482,7 @@ int main()
 	}
 
 	//Test 5
+	totalTests++;
 	TGAimage test5 = overlay("input/layer1.tga", "input/pattern1.tga");
 	writeData(test5, "output/test5.tga");
 
@@ -475,6 +497,7 @@ int main()
 	}
 
 	//Test 6
+	totalTests++;
 	TGAimage test6 = addToChannel("input/car.tga", "green", 200);
 	writeData(test6, "output/test6.tga");
 
@@ -489,6 +512,7 @@ int main()
 	}
 
 	//Test 7
+	totalTests++;
 	TGAimage test7 = scale("input/car.tga");
 	writeData(test7, "output/test7.tga");
 
@@ -503,6 +527,7 @@ int main()
 	}
 
 	//Test 8
+	totalTests++;
 	TGAimage test8_b = separateChannels("input/car.tga", "blue");
 	writeData(test8_b, "output/test8_b.tga");
 
@@ -524,6 +549,7 @@ int main()
 	}
 
 	//Test 9
+	totalTests++;
 	TGAimage test9 = combineFiles("input/layer_red.tga", "input/layer_green.tga", "input/layer_blue.tga");
 	writeData(test9, "output/test9.tga");
 
@@ -537,6 +563,22 @@ int main()
 		cout << "Test #9...... Failed!" << endl;
 	}
 
+	// Test 10
+	totalTests++;
+	TGAimage test10 = rotate("input/text2.tga");
+	writeData(test10, "output/test10.tga");
+
+	if (imageComparison("output/test10.tga", "examples/EXAMPLE_part10.tga") == true)
+	{
+		cout << "Test #10...... Passed!" << endl;
+		testCounter++;
+	}
+	else
+	{
+		cout << "Test #10...... Failed!" << endl;
+	}
+
+	cout << "Test results: " << testCounter << " / " << totalTests << endl;
 
 	return 0;
 }
