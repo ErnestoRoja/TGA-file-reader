@@ -15,7 +15,3 @@ pixel::pixel(unsigned char blue, unsigned char green, unsigned char red)
 	greenComponent = green;
 	redComponent = red;
 }
-
-
-
-

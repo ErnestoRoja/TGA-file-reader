@@ -28,9 +28,4 @@ public:
 
 	void displayHeader();
 	unsigned int getPixelCount();
-	
-	
 };
-
-
-

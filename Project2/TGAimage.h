@@ -22,6 +22,4 @@ struct TGAimage : private pixel, private TGAheader
 {
 	TGAheader header;
 	vector<pixel> pixels;
-
 };
-
