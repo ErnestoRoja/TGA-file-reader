@@ -125,6 +125,7 @@ void writeData(TGAimage targetFile, string outputFile)
 	}
 }
 
+
 bool imageComparison(string image1, string image2)
 {
 	TGAimage firstImage = readData(image1);
@@ -186,14 +187,10 @@ TGAimage subtract(string image1, string image2)
 		if (updatedBlue > 255.0f) updatedBlue = 255.0f;
 		topLayer.pixels[i].blueComponent = updatedBlue;
 
-		
-
 		updatedGreen = (bottomLayer.pixels[i].greenComponent - topLayer.pixels[i].greenComponent) + 0.5f;
 		if (updatedGreen < 0.0f) updatedGreen = 0.0f;
 		if (updatedGreen > 255.0f) updatedGreen = 255.0f;
 		topLayer.pixels[i].greenComponent = updatedGreen;
-
-	
 
 		updatedRed = (bottomLayer.pixels[i].redComponent - topLayer.pixels[i].redComponent) + 0.5f;
 		if (updatedRed < 0.0f) updatedRed = 0.0f;
@@ -249,7 +246,6 @@ TGAimage overlay(string image1, string image2)
 		{
 			updatedBlue = ((1 - 2 * (1 - topLayer.pixels[i].blueComponent / 255.0f) * (1 - bottomLayer.pixels[i].blueComponent / 255.0f)) * 255.0f) + 0.5f;
 			topLayer.pixels[i].blueComponent = updatedBlue;
-			
 		}
 
 		updatedGreen = (bottomLayer.pixels[i].greenComponent / 255.0f) + 0.5f;
@@ -419,10 +415,11 @@ int main()
 	unsigned int testCounter = 0;
 	unsigned int totalTests = 0;
 
-	//Test 1 (multiply)
-	totalTests++;
+	//Test 1
+	totalTests++; 
 	TGAimage test1 = multiply("input/layer1.tga", "input/pattern1.tga");
 	writeData(test1, "output/test1.tga");
+	
 	if (imageComparison("output/test1.tga", "examples/EXAMPLE_part1.tga") == true)
 	{
 		cout << "Test #1...... Passed!" << endl;
@@ -432,11 +429,12 @@ int main()
 	{
 		cout << "Test #1...... Failed!" << endl;
 	}
-	
-	//Test 2 (subtract)
+
+	//Test 2
 	totalTests++;
 	TGAimage test2 = subtract("input/layer2.tga", "input/car.tga");
 	writeData(test2, "output/test2.tga");
+
 	if (imageComparison("output/test2.tga", "examples/EXAMPLE_part2.tga") == true)
 	{
 		cout << "Test #2...... Passed!" << endl;
@@ -447,7 +445,7 @@ int main()
 		cout << "Test #2...... Failed!" << endl;
 	}
 
-	//Test 3 (screen)
+	//Test 3
 	totalTests++;
 	TGAimage test3_part1 = multiply("input/layer1.tga", "input/pattern2.tga");
 	writeData(test3_part1, "output/test3_part1.tga");
@@ -531,12 +529,12 @@ int main()
 	TGAimage test8_b = separateChannels("input/car.tga", "blue");
 	writeData(test8_b, "output/test8_b.tga");
 
+	
 	TGAimage test8_g = separateChannels("input/car.tga", "green");
 	writeData(test8_g, "output/test8_g.tga");
 
 	TGAimage test8_r = separateChannels("input/car.tga", "red");
 	writeData(test8_r, "output/test8_r.tga");
-
 
 	if (imageComparison("output/test8_b.tga", "examples/EXAMPLE_part8_b.tga") == true && imageComparison("output/test8_g.tga", "examples/EXAMPLE_part8_g.tga") == true && imageComparison("output/test8_r.tga", "examples/EXAMPLE_part8_r.tga") == true)
 	{
@@ -579,7 +577,5 @@ int main()
 	}
 
 	cout << "Test results: " << testCounter << " / " << totalTests << endl;
-
 	return 0;
 }
-
